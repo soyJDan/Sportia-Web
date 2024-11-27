@@ -1,0 +1,7 @@
+{
+  "name": "Sportia-Web",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
