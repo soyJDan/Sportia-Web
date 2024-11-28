@@ -16,7 +16,7 @@ import Customer from "./Customer";
 import {removeCustomer, searchCustomers} from "./CustomerApi";
 import {add, pencil, close} from "ionicons/icons";
 
-const CustomerList: React.FC = (props: any) => {
+const CustomerList: React.FC = () => {
     const { name } = useParams<{ name: string; }>();
     const [clientes, setClientes] = useState<Customer[]>([]);
     const history = useHistory();
@@ -36,7 +36,7 @@ const CustomerList: React.FC = (props: any) => {
     }
 
     const addCustomer = () => {
-        history.push('/page/customer/new');
+        history.push('/pages/customer/Example');
     }
 
     const editCustomer = (id: string) => {
@@ -108,12 +108,6 @@ const CustomerList: React.FC = (props: any) => {
 
 
                 </IonContent>
-
-
-
-
-
-
             </IonContent>
         </IonPage>
     );

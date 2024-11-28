@@ -1,7 +1,6 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import {IonButton, IonContent, IonHeader, IonPage, IonRouterLink, IonTitle, IonToolbar} from '@ionic/react';
 import ExploreContainer from '../components/ExploreContainer';
 import './Home.css';
-import CustomerList from "./customer/CustomerList";
 
 const Home: React.FC = () => {
   return (
@@ -18,8 +17,12 @@ const Home: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <ExploreContainer />
-          <CustomerList />
       </IonContent>
+        <IonContent>
+            <IonRouterLink href="/pages/customer/CustomerList">
+                <IonButton>Go to Customer</IonButton>
+            </IonRouterLink>
+        </IonContent>
     </IonPage>
   );
 };
