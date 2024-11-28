@@ -16,7 +16,6 @@ export async function removeCustomer(id: string) {
     let url = 'http://localhost:3000/api/v1/customer/delete/' + id
     await fetch(url, {
         "method": 'DELETE',
-        "body": JSON.stringify(id),
         "headers": {
             "Content-Type": 'application/json'
         }
