@@ -1,0 +1,29 @@
+.container-signup {
+    margin: 10px 100px;
+}
+
+.container-card {
+    padding: 2rem;
+}
+
+/* Margin */
+.mt-1 {
+    margin-top: 0.25rem;
+}
+
+.mt-2 {
+    margin-top: 0.5rem;
+}
+
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.mt-4 {
+    margin-top: 2rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+

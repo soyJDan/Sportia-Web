@@ -36,7 +36,7 @@ const CustomerList: React.FC = () => {
     }
 
     const addCustomer = () => {
-        history.push('/pages/customer/Example');
+        history.push('/pages/customer/New');
     }
 
     const editCustomer = (id: string) => {
