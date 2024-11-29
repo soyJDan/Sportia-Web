@@ -24,7 +24,7 @@ export async function removeCustomer(id: string) {
 }
 
 export async function saveCustomer(customer: Customer) {
-    let url = process.env.REACT_APP_API + '/customer/register'
+    let url = 'http://localhost:3000/api/v1/customer/register'
     await fetch(url, {
         "method": 'POST',
         "body": JSON.stringify(customer),
