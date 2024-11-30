@@ -13,7 +13,7 @@ import { useMaskito } from '@maskito/react';
 import {MaskitoOptions, maskitoTransform} from "@maskito/core";
 import {useHistory, useParams} from "react-router";
 import './styles/style.css';
-import {loginCustomer} from "./CustomerApi";
+import {loginCustomer} from "./config/CustomerApi";
 
 function SignIn() {
     const { name } = useParams<{ name: string; }>();
@@ -24,21 +24,18 @@ function SignIn() {
     const history = useHistory();
 
     const login = async () => {
-        let email = document.getElementById('email') as HTMLInputElement;
-        let password = document.getElementById('password') as HTMLInputElement;
+        const email = (document.getElementById('email') as HTMLInputElement).value;
+        const password = (document.getElementById('password') as HTMLInputElement).value;
 
-        if (email.value == '' || password.value == '') {
-            setErrorMessage("All fields are required.");
-            setShowModal(true);
-            return;
-        }
+        const result = await loginCustomer(email, password);
 
-        try {
-            const { userId, cookie } = await loginCustomer(email.value, password.value);
-            localStorage.setItem('userId', userId);
+        if (result) {
+            document.cookie = result.cookie;
+            sessionStorage.setItem('sessionCookie', result.cookie);
+
             history.push('/home');
-        } catch (error) {
-            setErrorMessage("Error in login.");
+        } else {
+            setErrorMessage('Invalid email or password');
             setShowModal(true);
         }
     }
@@ -85,7 +82,7 @@ function SignIn() {
                     <IonButtons slot="start">
                         <IonMenuButton />
                     </IonButtons>
-                    <IonTitle>{name} - Register</IonTitle>
+                    <IonTitle>{name} Login</IonTitle>
                 </IonToolbar>
             </IonHeader>
 

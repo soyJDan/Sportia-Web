@@ -1,0 +1,29 @@
+.container {
+    margin: 2rem;
+}
+
+.card {
+    width: 100%;
+}
+
+.card .title-card {
+    font-size: 40px;
+    text-align: center;
+    padding: 2rem;
+}
+
+.table {
+    width: 100%;
+    padding: 2rem;
+}
+
+.btn-add {
+    width: 100%;
+    padding: 1rem;
+}
+
+.modal .title-modal {
+    padding: 1rem;
+    text-align: center;
+    font-size: 18px;
+}

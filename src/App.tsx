@@ -1,6 +1,6 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import {Redirect, Route} from 'react-router-dom';
+import {IonApp, IonRouterOutlet, setupIonicReact} from '@ionic/react';
+import {IonReactRouter} from '@ionic/react-router';
 import Home from './pages/Home';
 
 /* Core CSS required for Ionic components to work properly */
@@ -25,21 +25,23 @@ import '@ionic/react/css/display.css';
  * For more info, please see:
  * https://ionicframework.com/docs/theming/dark-mode
  */
-
 /* import '@ionic/react/css/palettes/dark.always.css'; */
 /* import '@ionic/react/css/palettes/dark.class.css'; */
 import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import CustomerList from "./pages/customer/CustomerList";
 import New from "./pages/customer/New";
 import Login from "./pages/customer/Login";
+import Dashboard from "./pages/dashboard/Dashboard";
+import ProductDetail from "./pages/products/ProductDetail";
+import Cart from "./pages/Cart";
+import Perfil from "./pages/Perfil";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const sessionCookie = localStorage.getItem('sessionCookie');
+  const sessionCookie = document.cookie.includes(sessionStorage.getItem('sessionCookie') as string);
 
   return (
       <IonApp>
@@ -51,14 +53,23 @@ const App: React.FC = () => {
             <Route exact path="/">
               {sessionCookie ? <Redirect to="/home"/> : <Redirect to="/login"/>}
             </Route>
-            <Route exact path="/pages/customer/CustomerList">
-              <CustomerList/>
-            </Route>
             <Route exact path="/pages/customer/New">
               <New/>
             </Route>
             <Route exact path="/login">
               <Login/>
+            </Route>
+            <Route exact path="/dashboard">
+              <Dashboard/>
+            </Route>
+            <Route exact path="/product/:sku">
+              <ProductDetail/>
+            </Route>
+            <Route exact path="/cart">
+                <Cart />
+            </Route>
+            <Route exact path="/perfil">
+              <Perfil />
             </Route>
           </IonRouterOutlet>
         </IonReactRouter>

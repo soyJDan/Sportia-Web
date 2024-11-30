@@ -2,30 +2,6 @@
     margin: 10px 100px;
 }
 
-.container-card {
-    padding: 2rem;
-}
-
-ion-modal.modal {
-    --height: 15%;
-    --border-radius: 10px;
-    --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-}
-
-ion-modal.modal::part(backdrop) {
-    background: rgba(209, 213, 219);
-    opacity: 1;
-}
-
-ion-modal.modal ion-toolbar {
-    --background: rgb(172, 21, 21);
-    --color: white;
-}
-
-ion-modal.modal p {
-    padding: 1rem;
-}
-
 /* Margin */
 .mt-1 {
     margin-top: 0.25rem;

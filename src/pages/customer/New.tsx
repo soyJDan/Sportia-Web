@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {
     IonButton,
@@ -11,56 +11,70 @@ import {
 
 import { useMaskito } from '@maskito/react';
 import {MaskitoOptions, maskitoTransform} from "@maskito/core";
-import {useParams} from "react-router";
+import {useHistory, useParams} from "react-router";
 import './styles/style.css';
-import Customer from "./Customer";
-import {saveCustomer} from "./CustomerApi";
-import {Simulate} from "react-dom/test-utils";
+import Customer from "./config/Customer";
+import {saveCustomer} from "./config/CustomerApi";
 
 function SignUp() {
     const { name } = useParams<{ name: string; }>();
 
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const history = useHistory();
+
+    const [titleMessage, setTitleMessage] = useState<string | null>(null);
+    const [showMessage, setShowMessage] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
 
-    // Start: API call registration
     const registerCustomer = async () => {
         let firstName = document.getElementById('first-name') as HTMLInputElement;
         let lastName = document.getElementById('last-name') as HTMLInputElement;
         let phone = document.getElementById('phone') as HTMLInputElement;
         let email = document.getElementById('email') as HTMLInputElement;
-
         let password = document.getElementById('password') as HTMLInputElement;
-        const confirmPassword = document.getElementById('confirm-password') as HTMLInputElement;
+        let confirmPassword = document.getElementById('confirm-password') as HTMLInputElement;
 
-        if (firstName.value == '' || lastName.value == '' || phone.value == '' || email.value == '' || password.value == '') {
-            setErrorMessage("All fields are required.");
+        if (firstName.value === '' || lastName.value === '' || phone.value === '' || email.value === '' || password.value === '' || confirmPassword.value === '') {
+            setTitleMessage("Error");
+            setShowMessage("All fields are required.");
             setShowModal(true);
             return;
         }
 
         if (password.value !== confirmPassword.value) {
-            setErrorMessage("The password and confirm password must be the same.");
+            setTitleMessage("Error");
+            setShowMessage("The password and confirm password must be the same.");
             setShowModal(true);
             return;
         }
 
-        try {
-            let customer: Customer = {
-                name: firstName.value + ' ' + lastName.value,
-                email: email.value,
-                phone: phone.value,
-                password: password.value
-            }
+        let customer: Customer = {
+            name: firstName.value + ' ' + lastName.value,
+            email: email.value,
+            phone: phone.value,
+            password: password.value
+        };
 
-            await saveCustomer(customer);
+        try {
+            const { userId } = await saveCustomer(customer);
+
+            setTitleMessage("Success");
+            setShowMessage("Customer registered successfully.");
+
+            sessionStorage.setItem('userId', userId);
+
+            if (document.cookie.includes('JSESSIONID') || history.location.pathname === '/dashboard') {
+                history.push('/dashboard');
+            } else {
+                history.push('/login');
+            }
 
             firstName.value = lastName.value = phone.value = email.value = password.value = confirmPassword.value = '';
         } catch (error) {
-            setErrorMessage("An error occurred while saving the customer.");
+            setTitleMessage("Error");
+            setShowMessage("Email already registered.");
             setShowModal(true);
         }
-    }
+    };
 
     // Start: Verify if the email is valid
     const [isTouched, setIsTouched] = useState(false);
@@ -236,7 +250,7 @@ function SignUp() {
             <IonModal isOpen={showModal} className="modal">
                 <IonHeader>
                     <IonToolbar>
-                        <IonTitle>Error</IonTitle>
+                        <IonTitle>{ titleMessage }</IonTitle>
                         <IonButtons slot="end">
                             <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
                         </IonButtons>
@@ -244,7 +258,7 @@ function SignUp() {
                 </IonHeader>
                 <IonContent className="ion-content">
                     <p>
-                        <IonText>{errorMessage}</IonText>
+                        <IonText>{ showMessage }</IonText>
                     </p>
                 </IonContent>
             </IonModal>

@@ -4,4 +4,5 @@ export default interface Customer {
     email?: string;
     phone?: string;
     password?: string;
+    rank?: number;
 }
