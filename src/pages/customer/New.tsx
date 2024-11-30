@@ -15,8 +15,9 @@ import {useParams} from "react-router";
 import './styles/style.css';
 import Customer from "./Customer";
 import {saveCustomer} from "./CustomerApi";
+import {Simulate} from "react-dom/test-utils";
 
-function SignIn() {
+function SignUp() {
     const { name } = useParams<{ name: string; }>();
 
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -28,10 +29,18 @@ function SignIn() {
         let lastName = document.getElementById('last-name') as HTMLInputElement;
         let phone = document.getElementById('phone') as HTMLInputElement;
         let email = document.getElementById('email') as HTMLInputElement;
-        let password = document.getElementById('password') as HTMLInputElement;
 
-        if (firstName == null || !lastName || !phone || !email || !password) {
+        let password = document.getElementById('password') as HTMLInputElement;
+        const confirmPassword = document.getElementById('confirm-password') as HTMLInputElement;
+
+        if (firstName.value == '' || lastName.value == '' || phone.value == '' || email.value == '' || password.value == '') {
             setErrorMessage("All fields are required.");
+            setShowModal(true);
+            return;
+        }
+
+        if (password.value !== confirmPassword.value) {
+            setErrorMessage("The password and confirm password must be the same.");
             setShowModal(true);
             return;
         }
@@ -45,6 +54,8 @@ function SignIn() {
             }
 
             await saveCustomer(customer);
+
+            firstName.value = lastName.value = phone.value = email.value = password.value = confirmPassword.value = '';
         } catch (error) {
             setErrorMessage("An error occurred while saving the customer.");
             setShowModal(true);
@@ -127,7 +138,7 @@ function SignIn() {
                                                     fill="solid"
                                                     placeholder="John"
                                                     maxlength={200}
-
+                                                    required={true}
                                                 ></IonInput>
                                             </IonCol>
                                             <IonCol>
@@ -222,7 +233,7 @@ function SignIn() {
                 </IonContent>
             </IonContent>
 
-            <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+            <IonModal isOpen={showModal} className="modal">
                 <IonHeader>
                     <IonToolbar>
                         <IonTitle>Error</IonTitle>
@@ -231,13 +242,15 @@ function SignIn() {
                         </IonButtons>
                     </IonToolbar>
                 </IonHeader>
-                <IonContent>
-                    <IonText color="danger">{errorMessage}</IonText>
+                <IonContent className="ion-content">
+                    <p>
+                        <IonText>{errorMessage}</IonText>
+                    </p>
                 </IonContent>
             </IonModal>
         </IonPage>
     );
 }
-export default SignIn;
+export default SignUp;
 
 

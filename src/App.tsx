@@ -34,28 +34,37 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import CustomerList from "./pages/customer/CustomerList";
 import New from "./pages/customer/New";
+import Login from "./pages/customer/Login";
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <Home />
-        </Route>
-        <Route exact path="/">
-          <Redirect to="/home" />
-        </Route>
-        <Route exact path="/pages/customer/CustomerList">
-          <CustomerList />
-        </Route>
-        <Route exact path="/pages/customer/New">
-          <New />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+  const sessionCookie = localStorage.getItem('sessionCookie');
+
+  return (
+      <IonApp>
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home/>
+            </Route>
+            <Route exact path="/">
+              {sessionCookie ? <Redirect to="/home"/> : <Redirect to="/login"/>}
+            </Route>
+            <Route exact path="/pages/customer/CustomerList">
+              <CustomerList/>
+            </Route>
+            <Route exact path="/pages/customer/New">
+              <New/>
+            </Route>
+            <Route exact path="/login">
+              <Login/>
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </IonApp>
+  );
+
+};
 
 export default App;
